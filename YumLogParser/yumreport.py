@@ -1,14 +1,17 @@
 # yum report
 # parse a yum log for the most recent yum run.
 
+# imports here
 import os
 import sys
 import argparse
 import logging as log
 import re
+
+# imports where we use only a certain function
 from datetime import datetime
 
-
+# Setup function
 def setup():
     parser = argparse.ArgumentParser(
         description=(
@@ -22,7 +25,7 @@ def setup():
                         help='Enable Debug Logging')
     return parser.parse_args()
 
-
+# function to enable / disable debug logging
 def get_logging_level(args):
     if args.debug is True:
         log_level = log.DEBUG
@@ -30,13 +33,13 @@ def get_logging_level(args):
         log_level = log.INFO
     return log_level
 
-
+# return argument as a variable
 def get_log_file(args):
     yum_log = args.log
     log.debug("Yum Log file is: %s" % yum_log)
     return yum_log
 
-
+# use the regular expresseion to match a Month name which is the start of the yum log.
 def parse_line_for_date(line):
     log.debug("[PARSER]:%s" % line)
     date_obj = re.match(r"[ADFJMNOS]\w* [\d]{1,2}", line)
@@ -44,16 +47,18 @@ def parse_line_for_date(line):
         date = line[:6]
         log.debug("Date found: %s" % date)
     else:
-        log.error("No date found in line")
+        log.error("No date found in line...exiting")
+        sys.exit(1)
     return date
 
-
+# convert the string to a datetime object so we can use it for date comparisons
 def convert_date_to_obj(date):
     date_obj = datetime.strptime(date, '%b %d')
     log.debug("Date Object: %s" % date_obj)
     return date_obj
 
-
+# work your way back through the log file, when the date changes we can assume
+# that is the end of the packages installed when yum last run
 def find_last_run(yum_log):
     with open(yum_log, "r") as loaded_log:
         log_lines = loaded_log.readlines()
@@ -65,7 +70,7 @@ def find_last_run(yum_log):
         log.debug("Datetime object: %s" % last_run_obj)
     return last_run_obj
 
-
+# big function to read the log file, and find all packages in the last yum update
 def read_yum_log(yum_log):
     if os.path.isfile(yum_log):
         log.info("Parsing yum log file: %s" % yum_log)
@@ -85,7 +90,7 @@ def read_yum_log(yum_log):
         sys.exit(1)
     return packages_installed
 
-
+# main wrapper for all the functions above
 def main(args):
     log_level = get_logging_level(args)
     date_format = "%Y-%m-%dT%H:%M:%S"
