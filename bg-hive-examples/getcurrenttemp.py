@@ -169,8 +169,19 @@ def get_temperature(hive_url, sessionID, id):
         response = requests.get(temperature_url, headers=request_headers, verify=False)
         log.debug(response.status_code)
         response_json = json.loads(response.text)
-        jprint = pprint.PrettyPrinter(indent=4)
-        jprint.pprint(response_json)
+        channels = response_json['channels']
+        channels_index = 0
+        values = channels[channels_index]['values']
+        temp_count = 0
+        temperature = []
+        while temp_count <= 0:
+            for key, value in values.items():
+                log.debug(value)
+                temp_count = temp_count + 1
+                temperature = value
+        return temperature
+
+
     except Exception as e:
         log.error(e)
     return 1
@@ -185,7 +196,8 @@ def main(args):
     username, password = get_auth(args)
     sessionID = get_sessionID(hive_url, username, password)
     id = get_channels(hive_url, sessionID)
-    get_temperature(hive_url, sessionID, id)
+    temperature = get_temperature(hive_url, sessionID, id)
+    print("The House Temperature is %s " % temperature)
     return 1
 
 if __name__ == "__main__":
