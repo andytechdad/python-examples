@@ -8,8 +8,7 @@ import requests
 import json
 import urllib3
 import pprint
-
-from datetime import datetime
+import time
 
 urllib3.disable_warnings(urllib3.exceptions.SNIMissingWarning)
 urllib3.disable_warnings(urllib3.exceptions.InsecurePlatformWarning)
@@ -151,10 +150,12 @@ def get_channels(hive_url, sessionID):
     return 1
 
 def get_temperature(hive_url, sessionID, id):
-    datenow = datetime.now()
-    timenow = str(datenow.microsecond)
+    timestamp = int(time.time())
+    timenow = str(timestamp)
+    timethen = str(int(time.time() - 240))
+
     log.debug(timenow)
-    temperature_url = hive_url + "/channels/" + id + "?start=" + timenow + "&timeUnit=MINUTES&rate=1&operation=MAX"
+    temperature_url = hive_url + "/channels/" + id + "?start=" + timethen + "&end=" + timenow + "&timeUnit=MINUTES&rate=1&operation=MAX"
     request_headers = {
                         'Content-Type': 'application/vnd.alertme.zoo-6.6+json',
                         'Accept': 'application/vnd.alertme.zoo-6.6+json',
@@ -162,6 +163,7 @@ def get_temperature(hive_url, sessionID, id):
                         'X-Omnia-Access-Token': sessionID
                         }
     try:
+        log.debug(temperature_url)
         response = requests.get(temperature_url, headers=request_headers, verify=False)
         log.debug(response.status_code)
         response_json = json.loads(response.text)
