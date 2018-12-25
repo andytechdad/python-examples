@@ -150,9 +150,11 @@ def get_channels(hive_url, sessionID):
     return 1
 
 def get_temperature(hive_url, sessionID, id):
-    timestamp = int(time.time())
+    epoch = int(time.time())
+    timestamp = epoch * 1000
     timenow = str(timestamp)
-    timethen = str(int(time.time() - 240))
+    epoch_past = int(time.time() - 240)
+    timethen = str(epoch_past * 1000)
 
     log.debug(timenow)
     temperature_url = hive_url + "/channels/" + id + "?start=" + timethen + "&end=" + timenow + "&timeUnit=MINUTES&rate=1&operation=MAX"
@@ -167,7 +169,8 @@ def get_temperature(hive_url, sessionID, id):
         response = requests.get(temperature_url, headers=request_headers, verify=False)
         log.debug(response.status_code)
         response_json = json.loads(response.text)
-        log.debug(response.text)
+        jprint = pprint.PrettyPrinter(indent=4)
+        jprint.pprint(response_json)
     except Exception as e:
         log.error(e)
     return 1
