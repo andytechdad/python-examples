@@ -235,10 +235,10 @@ def main(args):
     log.basicConfig(stream=sys.stdout, level=log_level,
                     format=FORMAT, datefmt=date_format)
     log.info("Connecting to Hive....")
-    username, password = get_auth(args)
-    sessionID = get_sessionID(hive_url, username, password)
     while True:
         for pixel in range(8):
+            username, password = get_auth(args)
+            sessionID = get_sessionID(hive_url, username, password)
             log.debug("Setting Pixel %s " % pixel)
             id = get_channels(hive_url, sessionID)
             temperature = get_temperature(hive_url, sessionID, id)
