@@ -17,6 +17,7 @@ urllib3.disable_warnings(urllib3.exceptions.InsecurePlatformWarning)
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 
 hive_url = "https://api.prod.bgchprod.info:443/omnia"
+blinkt.set_brightness(0.1)
 
 def setup():
     parser = argparse.ArgumentParser(
@@ -217,6 +218,11 @@ def set_pixel(pixel, temperature):
         g = 255
         b = 0
     log.debug(temperature)
+    log.debug("RGB Value is %s %s %s" % (
+    r,
+    g,
+    b
+    ))
     blinkt.set_pixel(pixel, r, g, b)
     blinkt.show()
     sleep(30)
