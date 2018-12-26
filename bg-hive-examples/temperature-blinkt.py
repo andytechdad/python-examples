@@ -219,7 +219,7 @@ def set_pixel(pixel, temperature):
     log.debug(temperature)
     blinkt.set_pixel(pixel, r, g, b)
     blinkt.show()
-    sleep 30
+    sleep(30)
     return 1
 
 def main(args):
