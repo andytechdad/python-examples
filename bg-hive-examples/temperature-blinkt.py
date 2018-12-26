@@ -201,7 +201,7 @@ def set_pixel(pixel, temperature):
         r = 200
         g = 30
         b = 20
-    elif tempersture > 15:
+    elif temperature > 15:
         r = 180
         g = 40
         b = 40
@@ -225,7 +225,7 @@ def set_pixel(pixel, temperature):
     ))
     blinkt.set_pixel(pixel, r, g, b)
     blinkt.show()
-    sleep(30)
+    sleep(240)
     return 1
 
 def main(args):
