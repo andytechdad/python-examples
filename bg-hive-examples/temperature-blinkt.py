@@ -9,6 +9,7 @@ import json
 import urllib3
 import pprint
 import time
+import blinkt
 
 urllib3.disable_warnings(urllib3.exceptions.SNIMissingWarning)
 urllib3.disable_warnings(urllib3.exceptions.InsecurePlatformWarning)
@@ -181,10 +182,42 @@ def get_temperature(hive_url, sessionID, id):
                 temperature = value
         log.debug("Found %s values" % temp_count)
         return temperature
-
-
     except Exception as e:
         log.error(e)
+    return 1
+
+def set_pixel(pixel, temperature):
+    if temperature > 25:
+        r = 255
+        g = 0
+        b = 0
+    else if temperature > 22:
+        r = 240
+        g = 10
+        b = 10
+    else if temperature > 18:
+        r = 200
+        g = 30
+        b = 20
+    else if tempersture > 15:
+        r = 180
+        g = 40
+        b = 40
+    else if temperature > 10:
+        r = 100
+        g = 100
+        b = 100
+    else if temperature > 6:
+        r = 40
+        g = 40
+        b = 100
+    else:
+        r = 0
+        g = 255
+        b = 0
+    log.debug(temperature)
+    blinkt.set_pixel(pixel, r, g, b)
+    blinkt.show()
     return 1
 
 def main(args):
@@ -193,12 +226,14 @@ def main(args):
     FORMAT = "[%(levelname)s] %(asctime)s - %(message)s"
     log.basicConfig(stream=sys.stdout, level=log_level,
                     format=FORMAT, datefmt=date_format)
-    log.info("Connecting to Hive....")
-    username, password = get_auth(args)
-    sessionID = get_sessionID(hive_url, username, password)
-    id = get_channels(hive_url, sessionID)
-    temperature = get_temperature(hive_url, sessionID, id)
-    log.info("The House Temperature is %s " % temperature)
+    for pixel in range(8):
+        log.info("Connecting to Hive....")
+        username, password = get_auth(args)
+        sessionID = get_sessionID(hive_url, username, password)
+        id = get_channels(hive_url, sessionID)
+        temperature = get_temperature(hive_url, sessionID, id)
+        log.info("The House Temperature is %s " % temperature)
+        set_pixel(pixel, temperature)
     return 1
 
 if __name__ == "__main__":
