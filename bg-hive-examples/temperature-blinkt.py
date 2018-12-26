@@ -192,23 +192,23 @@ def set_pixel(pixel, temperature):
         r = 255
         g = 0
         b = 0
-    else if temperature > 22:
+    elif temperature > 22:
         r = 240
         g = 10
         b = 10
-    else if temperature > 18:
+    elif temperature > 18:
         r = 200
         g = 30
         b = 20
-    else if tempersture > 15:
+    elif tempersture > 15:
         r = 180
         g = 40
         b = 40
-    else if temperature > 10:
+    elif temperature > 10:
         r = 100
         g = 100
         b = 100
-    else if temperature > 6:
+    elif temperature > 6:
         r = 40
         g = 40
         b = 100
