@@ -194,29 +194,29 @@ def set_pixel(pixel, temperature):
         g = 0
         b = 0
     elif temperature > 22:
-        r = 240
-        g = 10
-        b = 10
-    elif temperature > 18:
-        r = 200
-        g = 30
-        b = 20
-    elif temperature > 15:
-        r = 180
-        g = 40
-        b = 40
-    elif temperature > 10:
-        r = 100
-        g = 100
-        b = 100
-    elif temperature > 6:
-        r = 40
-        g = 40
-        b = 100
-    else:
-        r = 0
-        g = 255
+        r = 255
+        g = 68
         b = 0
+    elif temperature > 18:
+        r = 255
+        g = 145
+        b = 0
+    elif temperature > 15:
+        r = 255
+        g = 230
+        b = 0
+    elif temperature > 10:
+        r = 0
+        g = 230
+        b = 255
+    elif temperature > 6:
+        r = 0
+        g = 0
+        b = 255
+    else:
+        r = 255
+        g = 255
+        b = 255
     log.debug(temperature)
     log.debug("RGB Value is %s %s %s" % (
     r,
