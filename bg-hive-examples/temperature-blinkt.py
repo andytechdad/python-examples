@@ -196,9 +196,17 @@ def set_pixel(pixel, temperature):
         r = 255
         g = 0
         b = 0
+    elif temperature > 23:
+        r = 255
+        g = 14
+        b = 0
     elif temperature > 22:
         r = 255
         g = 68
+        b = 0
+    elif temperature > 20:
+        r = 255
+        g = 85
         b = 0
     elif temperature > 18:
         r = 255
