@@ -172,18 +172,21 @@ def get_temperature(hive_url, sessionID, id):
         response = requests.get(temperature_url, headers=request_headers, verify=False)
         log.debug(response.status_code)
         response_json = json.loads(response.text)
-        channels = response_json['channels']
-        channels_index = 0
-        values = channels[channels_index]['values']
-        temp_count = 0
-        temperature = []
-        while temp_count <= 0:
-            for key, value in values.items():
-                log.debug(value)
-                temp_count = temp_count + 1
-                temperature = value
-        log.debug("Found %s values" % temp_count)
-        return temperature
+        if response_json.status_code == 200:
+            channels = response_json['channels']
+            channels_index = 0
+            values = channels[channels_index]['values']
+            temp_count = 0
+            temperature = []
+            while temp_count <= 0:
+                for key, value in values.items():
+                    log.debug(value)
+                    temp_count = temp_count + 1
+                    temperature = value
+            log.debug("Found %s values" % temp_count)
+            return temperature
+        else:
+            pass
     except Exception as e:
         log.error(e)
     return 1
@@ -225,7 +228,6 @@ def set_pixel(pixel, temperature):
     ))
     blinkt.set_pixel(pixel, r, g, b)
     blinkt.show()
-    sleep(240)
     return 1
 
 def main(args):
