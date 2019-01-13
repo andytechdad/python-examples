@@ -253,7 +253,10 @@ def main(args):
             id = get_channels(hive_url, sessionID)
             temperature = get_temperature(hive_url, sessionID, id)
             log.info("The House Temperature is %s " % temperature)
-            set_pixel(pixel, temperature)
+            if temperature > 1:
+                set_pixel(pixel, temperature)
+            else:
+                pass
     return 1
 
 if __name__ == "__main__":
