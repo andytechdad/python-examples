@@ -171,8 +171,8 @@ def get_temperature(hive_url, sessionID, id):
         log.debug(temperature_url)
         response = requests.get(temperature_url, headers=request_headers, verify=False)
         log.debug(response.status_code)
-        response_json = json.loads(response.text)
-        if response_json.status_code == 200:
+        if response.status_code == 200:
+            response_json = json.loads(response.text)
             channels = response_json['channels']
             channels_index = 0
             values = channels[channels_index]['values']
