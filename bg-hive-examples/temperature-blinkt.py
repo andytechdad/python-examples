@@ -17,7 +17,7 @@ urllib3.disable_warnings(urllib3.exceptions.InsecurePlatformWarning)
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 
 hive_url = "https://api.prod.bgchprod.info:443/omnia"
-blinkt.set_brightness(0.01)
+blinkt.set_brightness(0.1)
 
 def setup():
     parser = argparse.ArgumentParser(
