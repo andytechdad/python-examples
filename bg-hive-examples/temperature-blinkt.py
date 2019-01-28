@@ -160,7 +160,7 @@ def get_temperature(hive_url, sessionID, id):
     timethen = str(epoch_past * 1000)
     log.debug(timenow)
     try:
-        temperature_url = hive_url + "/channels/" + id + "?start=" + timethen + "&end=" + timenow + "&timeUnit=MINUTES&rate=1&operation=MAX"
+        temperature_url = hive_url + "/channels/" + id + "?start=" + timethen + "&end=" + timenow + "&timeUnit=MINUTES&rate=1&operation=AVG"
     except TypeError as e:
         log.error(hive_url)
         log.error(id)
@@ -198,6 +198,8 @@ def get_temperature(hive_url, sessionID, id):
     return 1
 
 def set_pixel(pixel, temperature):
+    blinkt.set_pixel(pixel, 0, 0, 0)
+    blinkt.show()
     if temperature > 25:
         r = 255
         g = 0
