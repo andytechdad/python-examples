@@ -158,9 +158,15 @@ def get_temperature(hive_url, sessionID, id):
     timenow = str(timestamp)
     epoch_past = int(time.time() - 240)
     timethen = str(epoch_past * 1000)
-
     log.debug(timenow)
-    temperature_url = hive_url + "/channels/" + id + "?start=" + timethen + "&end=" + timenow + "&timeUnit=MINUTES&rate=1&operation=MAX"
+    try:
+        temperature_url = hive_url + "/channels/" + id + "?start=" + timethen + "&end=" + timenow + "&timeUnit=MINUTES&rate=1&operation=MAX"
+    except TypeError as e:
+        log.error(hive_url)
+        log.error(id)
+        log.error(timethen)
+        log.error(timenow)
+        log.error(e)
     request_headers = {
                         'Content-Type': 'application/vnd.alertme.zoo-6.6+json',
                         'Accept': 'application/vnd.alertme.zoo-6.6+json',
