@@ -254,6 +254,7 @@ def main(args):
                     format=FORMAT, datefmt=date_format)
     log.info("Connecting to Hive....")
     while True:
+        previous_temperature = 0
         for pixel in range(8):
             username, password = get_auth(args)
             sessionID = get_sessionID(hive_url, username, password)
@@ -263,8 +264,10 @@ def main(args):
             log.info("The House Temperature is %s " % temperature)
             if temperature > 1:
                 set_pixel(pixel, temperature)
+                previous_temperature = temperature
             else:
-                pass
+                set_pixel(pixel, previous_temperature)
+            sleep(300)
     return 1
 
 if __name__ == "__main__":
