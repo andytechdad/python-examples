@@ -200,30 +200,34 @@ def get_temperature(hive_url, sessionID, id):
 def set_pixel(pixel, temperature):
     blinkt.set_pixel(pixel, 0, 0, 0)
     blinkt.show()
-    if temperature > 25:
+    if temperature > 23:
         r = 255
         g = 0
         b = 0
-    elif temperature > 23:
-        r = 255
-        g = 14
-        b = 0
     elif temperature > 22:
         r = 255
-        g = 68
+        g = 20
+        b = 0
+    elif temperature > 21:
+        r = 255
+        g = 40
         b = 0
     elif temperature > 20:
         r = 255
         g = 85
         b = 0
-    elif temperature > 18:
+    elif temperature > 19:
         r = 255
+        g = 100
+        b = 0
+    elif temperature > 18:
+        r = 180
         g = 145
         b = 0
     elif temperature > 15:
-        r = 255
+        r = 60
         g = 230
-        b = 0
+        b = 230
     elif temperature > 10:
         r = 0
         g = 230
